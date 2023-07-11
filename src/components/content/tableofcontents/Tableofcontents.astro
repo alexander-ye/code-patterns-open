@@ -1,0 +1,71 @@
+---
+import type { MarkdownHeading } from "astro";
+
+interface Props {
+  headings: MarkdownHeading[];
+}
+const { headings } = Astro.props;
+---
+
+<section style="padding-left: 2rem; margin-bottom: 2rem;">
+  <h2 style="font-weight: 500; margin-bottom: 0;">Table of Contents</h2>
+  <ul>
+    {
+      headings.map((heading: MarkdownHeading) => {
+        const {
+          depth,
+          slug,
+          text,
+        }: { depth: number; slug: string; text: string } = heading;
+
+        const headingRef: string = `#${slug}`;
+        return (
+          <li class={`toc-header toc-depth-${depth}`}>
+            <a href={headingRef}>{text}</a>
+          </li>
+        );
+      })
+    }
+  </ul>
+</section>
+
+<style>
+  ul {
+    list-style: none;
+  }
+
+  .toc-header a {
+    text-decoration: none;
+    color: black;
+  }
+
+  .toc-depth-1 {
+    font-size: 24px;
+  }
+
+  .toc-depth-2 {
+    font-size: 20px;
+    font-weight: 500;
+  }
+
+  .toc-depth-3 {
+    font-size: 18px;
+    margin-left: 1rem;
+    font-weight: 400;
+  }
+
+  .toc-depth-4 {
+    font-size: 16px;
+    margin-left: 2rem;
+  }
+
+  .toc-depth-5 {
+    visibility: hidden;
+    height: 0;
+  }
+
+  .toc-depth-6 {
+    visibility: hidden;
+    height: 0;
+  }
+</style>

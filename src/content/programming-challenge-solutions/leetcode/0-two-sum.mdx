@@ -5,7 +5,7 @@ languages: [Python]
 author: Alex Ye
 ---
 
-## Problem Statement:
+## Problem Statement
 
 <blockquote src={frontmatter.src_url}>
 Given an array of integers `nums` and an integer `target`, return indices of the two numbers such that they add up to `target`.
@@ -14,7 +14,7 @@ You may assume that each input would have _exactly one solution_, and you may no
 
 You can return the answer in any order.
 
-### Constraints:
+**Constraints**
 
 - `2 <= nums.length <= 104`
 - `-109 <= nums[i] <= 109`
@@ -24,7 +24,7 @@ You can return the answer in any order.
 <details>
 <summary><strong>Example Test Cases</strong></summary>
 
-#### Example 1:
+**Example 1:**
 
 ```
 Input: nums = [2,7,11,15], target = 9
@@ -32,20 +32,19 @@ Output: [0,1]
 Explanation: Because nums[0] + nums[1] == 9, we return [0, 1].
 ```
 
-#### Example 2:
+**Example 2:**
 
 ```
 Input: nums = [3,2,4], target = 6
 Output: [1,2]
 ```
 
-#### Example 3:
+**Example 3:**
 
 ```
 Input: nums = [3,3], target = 6
 Output: [0,1]
 ```
-
 </details>
 </blockquote>
 
@@ -238,7 +237,7 @@ I would not recommend this approach for two reasons:
 - The sorting adds additional runtime to our solution. The tradeoff might be worth it, but the resultant runtime would be at least O(nlogn).
 - Sorting the array means shifting elements. But the problem statement asks us to return the indices of two elements from the original array. This means with a osrting approach, we need to do additional work to retrieve the indices&mdash;the original positions&mdash;of elements from the `num` array.
 
-### Runetime of Bonus Solution
+### Runtime of Bonus Solution
 
 To calculate the runtime, consider:
 

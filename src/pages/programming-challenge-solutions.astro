@@ -28,7 +28,7 @@ const hackerRankPosts: CollectionEntry<"programming-challenge-solutions">[] =
   {
     leetCodePosts.map((entry: CollectionEntry) => {
       return (
-        <a href={`${entry.collection}/${entry.slug}`}>{entry.data.title}</a>
+        <a href={`/${entry.collection}/${entry.slug}`}>{entry.data.title}</a>
       );
     })
   }
@@ -36,7 +36,7 @@ const hackerRankPosts: CollectionEntry<"programming-challenge-solutions">[] =
   {
     hackerRankPosts.map((entry: CollectionEntry) => {
       return (
-        <a href={`${entry.collection}/${entry.slug}`}>{entry.data.title}</a>
+        <a href={`/${entry.collection}/${entry.slug}`}>{entry.data.title}</a>
       );
     })
   }

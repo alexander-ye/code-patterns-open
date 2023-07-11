@@ -1,6 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 import Post from "../layouts/post/Post.astro";
+import TableofContents from "../components/content/tableofcontents/Tableofcontents.astro";
 
 // 1. Generate a new path for every collection entry
 export async function getStaticPaths() {
@@ -17,7 +18,8 @@ export async function getStaticPaths() {
 }
 // 2. When it's time to render, you can get the entry directly from the prop
 const { entry } = Astro.props;
-const { Content } = await entry.render();
+
+const { Content, headings } = await entry.render();
 ---
 
 <Post title={entry.data.title}>
@@ -33,6 +35,7 @@ const { Content } = await entry.render();
       </p>
     ) : null
   }
+  <TableofContents headings={headings} />
 
   <Content />
 </Post>
