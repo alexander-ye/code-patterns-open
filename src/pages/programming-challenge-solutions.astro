@@ -1,0 +1,43 @@
+---
+import { CollectionEntry, getCollection } from "astro:content";
+import { filterCollectionBySubfolder } from "../utils/generic";
+import Layout from "../layouts/Layout.astro";
+
+const codingChallengePosts: CollectionEntry<"programming-challenge-solutions">[] =
+  await getCollection("programming-challenge-solutions");
+
+const leetCodePosts: CollectionEntry<"programming-challenge-solutions">[] =
+  codingChallengePosts.filter(
+    (post: CollectionEntry<"programming-challenge-solutions">) => {
+      return filterCollectionBySubfolder(post, "leetcode");
+    }
+  );
+const hackerRankPosts: CollectionEntry<"programming-challenge-solutions">[] =
+  codingChallengePosts.filter(
+    (post: CollectionEntry<"programming-challenge-solutions">) => {
+      return filterCollectionBySubfolder(post, "hackerrank");
+    }
+  );
+// return codingChallengePosts.map(entry => ({
+//   params: { slug: entry.slug }, props: { entry },
+// }));
+---
+
+<Layout title="Programming Challenge Solutions">
+  <h2>LeetCode</h2>
+  {
+    leetCodePosts.map((entry: CollectionEntry) => {
+      return (
+        <a href={`${entry.collection}/${entry.slug}`}>{entry.data.title}</a>
+      );
+    })
+  }
+  <h2>HackerRank</h2>
+  {
+    hackerRankPosts.map((entry: CollectionEntry) => {
+      return (
+        <a href={`${entry.collection}/${entry.slug}`}>{entry.data.title}</a>
+      );
+    })
+  }
+</Layout>

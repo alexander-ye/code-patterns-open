@@ -1,0 +1,24 @@
+[
+  {
+    "url": "/programming-challenge-solutions",
+    "label": "Programming Challenge Solutions",
+    "subnav": [
+      {
+        "url": "/programming-challenge-solutions/leetcode",
+        "label": "LeetCode"
+      },
+      {
+        "url": "/programming-challenge-solutions/hackerrank",
+        "label": "HackerRank"
+      }
+    ]
+  },
+  {
+    "url": "/about",
+    "label": "About"
+  },
+  {
+    "url": "/contribute",
+    "label": "Contribute"
+  }
+]

@@ -1,0 +1,251 @@
+---
+title: Two-Sum Solution
+src: { domain: LeetCode, url: https://leetcode.com/problems/two-sum/ }
+languages: [Python]
+author: Alex Ye
+---
+
+## Problem Statement:
+
+<blockquote src={frontmatter.src_url}>
+Given an array of integers `nums` and an integer `target`, return indices of the two numbers such that they add up to `target`.
+
+You may assume that each input would have _exactly one solution_, and you may not use the same element twice.
+
+You can return the answer in any order.
+
+### Constraints:
+
+- `2 <= nums.length <= 104`
+- `-109 <= nums[i] <= 109`
+- `-109 <= target <= 109`
+- _Only one valid answer exists._
+
+<details>
+<summary><strong>Example Test Cases</strong></summary>
+
+#### Example 1:
+
+```
+Input: nums = [2,7,11,15], target = 9
+Output: [0,1]
+Explanation: Because nums[0] + nums[1] == 9, we return [0, 1].
+```
+
+#### Example 2:
+
+```
+Input: nums = [3,2,4], target = 6
+Output: [1,2]
+```
+
+#### Example 3:
+
+```
+Input: nums = [3,3], target = 6
+Output: [0,1]
+```
+
+</details>
+</blockquote>
+
+## Understanding the Problem
+
+Another way to state the problem is:
+
+<blockquote>
+  What are the index positions of the two numbers in a list that add up to a
+  target number?
+</blockquote>
+
+### Inputs
+
+Our function takes in two parameters:
+
+- `nums`: an array/list of integers
+- `target`: an integer that two values in our `nums` array must add up to.
+
+### Outputs
+
+Our function should return:
+
+- A list of two integers, which represent the index positions of the two unique `number` elements in `nums` that add up to `target`.
+
+### Edge Cases
+
+Depending on the approach we take, two edge cases we may have to consider are:
+
+- `nums` containing negative numbers
+- `nums` containing duplicate elements
+
+## Naive Solution: Double For-Loop
+
+Let's try to brute force an answer using nested for-loops.
+
+The idea is to check each element against every other element:
+
+- For each element in our `nums` array:
+  - Check each element against our selected element by adding
+  - If the resultant sum equals the target number, return the indices of the two elements
+
+We do not need to perform additional checks or include fallbacks, as, per the problem specifications, we are guaranteed a solution.
+
+Implementation:
+
+```python
+# LeetCode boilerplate Solution class
+class Solution:
+  # Function to implement
+  def twoSum(self, nums: List[int], target: int) -> List[int]:
+    # For each list index
+    for i in range(len(nums)):
+      # Iterate over the entire list
+      # Micro-optimization with indices to avoid using the same element
+      # and reduce duplicate work
+      # (all numbers have been checked against previous numbers of the loop)
+      for j in range(i + 1, len(nums)):
+        # Check if the sum of two elements adds up to the target
+        if nums[i] + nums[j] == target:
+          # If the sum equals our target, return the two indices
+          # Remember that return statements terminate function execution
+          return [i, j]
+```
+
+### Runtime of Naive Solution
+
+We have a loop that iterates over all of our input list elements, so we know we have at least O(n) operations. For each loop, we iterate once again over all list elements, so we have O(n \* n ) operations, or O(n<sup>2</sup>).
+
+A good rule of thumb is, any time we have nested loops over the same data set, odds are the runtime is O(n<sup>2</sup>).
+
+**Follow-up**: Can you come up with an algorithm that is less than O(n2) time complexity?
+
+Ahh, looks like LeetCode called us out. So our solution works, but it's not optimal.
+
+## Optimized Solution: Hash Map
+
+### Approach
+
+For our efficient approach, we will create a hash table to store key value pairs:
+
+```
+{key [number]: value [index_of_number]}
+```
+
+Once we've created the hash table, we will iterate through the array exactly once:
+
+For each list index `i`:
+
+- Obtain the number at that index, `num[i]`.
+- Calculate the complement: `complement =  target = num[i]`
+- Check if the complement exists in the hash table.
+  - If the complement exists in the hash table, then that means we have found our two numbers:
+    - We can return our solution `[i, hash_table[complement]]`, where `i` is the index of the element we are currently checking, and `hash_table[complement]` is the stored index of an element we have already checked.
+  - If the complement does not exist in the hash table, then we add the element we are currently checking to the table, `hash_table[num[i]] = i` and continue with our iteration.
+
+Because a solution is guaranteed to exist, we will find a solution.
+
+In code:
+
+```python
+class Solution:
+  def twoSum(self, nums: List[int], target: int) -> List[int]:
+    # Initialize hashmap with number values as keys and their indices in nums as values
+    numberToIndex = {}
+
+    N = len(nums)
+
+    # For each index of the list
+    for i in range(N):
+      # Get the number at that index
+      number = nums[i]
+      # Get the number's complement
+      complement = target - number
+      # Check whether the number's complement is in the hash map
+      if complement in numberToIndex:
+        # If the complement is in the hash map, we return the index of our two numbers
+        return [i, numberToIndex[complement]]
+      # If not, add our current number to the hashmap
+      numberToIndex[value] = i
+
+    # We do not need this last line of code because we are guaranteed to have a solution
+    # return []
+```
+
+### Runtime of Optimized Solution
+
+In Python, the average runtime of the `in` operator is O(1) for dictionaries&mdash;the worst-case is O(n).
+
+With our approach, we iterate through the array exactly once.
+
+So, on average, the runtime is O(n).
+
+## Bonus Solution: Two-Pointers
+
+Can we approach this problem using a two-pointer approach?
+
+We can! It would look something like this:
+
+1. Sort the input array; `nums` is not guaranteed to be sorted, but to implement our two pointer solution we need a sorted array.
+2. Set one pointer, `i` to the start of the array (the lowest value) and a second pointer, `j` to the end of the array (the highest value).
+3. Initialize a loop with the two pointers to find the target elements:
+   - While the sum, `nums[i]` + `nums[j]` does not equal the target number:
+     - If the sum is less than the target number, increment `i` to `i + 1`. (If the sum is smaller than the target, we need to increase it).
+     - If the sum is greater than the target number, decrement `j` to `j - 1`. (If the sum is larger than the target, we need to decrease it.)
+   - Because we are guaranteed a unique solution, no other checks are needed, and we will exit the while loop once that solution is found.
+4. Retrieve the indices in the original array for `nums[i]` and `nums[j]`.
+5. Return the indices we find.
+
+To implement this solution:
+
+```python
+class Solution:
+  def twoSum(self, nums: List[int], target: int) -> List[int]:
+    # Sort our input array; sorted returns a new array
+    sorted_nums = sorted(nums)
+    # Index of lesser element
+    lower_i = 0
+    # Index of greater element
+    upper_i = len(nums) - 1
+
+    # Sum of less and greater element
+    summed_numbers = sorted_nums[lower_i] + sorted_nums[upper_i]
+
+    # Traverse the sorted array, iteratively calculating summed_numbers
+    while summed_numbers != target:
+      # Increment the lower index if our sum is less than the target
+      if summed_numbers < target:
+        lower_i += 1
+      # Decrement the upper index if our sum is greater than the target
+      else:
+        upper_i -= 1
+      # Recalculate the sum of the lower and upper elements
+      summed_numbers = sorted_nums[lower_i] + sorted_nums[upper_i]
+
+    # Retrieve the original indices of the summed elements
+    out_lower = nums.index(sorted_nums[lower_i])
+    out_upper = nums.index(sorted_nums[upper_i])
+
+    # Make sure we don't return duplicate indices
+    if out_lower == out_upper:
+      out_upper = nums[out_upper + 1:].index(sorted_nums[upper_i]) + out_upper + 1
+
+    # Return the indices of our summed elements from the original array
+    return [out_lower, out_upper]
+```
+
+I would not recommend this approach for two reasons:
+
+- The sorting adds additional runtime to our solution. The tradeoff might be worth it, but the resultant runtime would be at least O(nlogn).
+- Sorting the array means shifting elements. But the problem statement asks us to return the indices of two elements from the original array. This means with a osrting approach, we need to do additional work to retrieve the indices&mdash;the original positions&mdash;of elements from the `num` array.
+
+### Runetime of Bonus Solution
+
+To calculate the runtime, consider:
+
+- Python's `sorted` function runs in O(nlogn) time.
+- Our traversal (`while` loop) runs in O(n) time.
+- Python's `index` function runs in O(n) time.
+
+So, in total, we have `O(nlogn) + O(n) + O(n) + O(n) + O(n)`, or `O(nlogn) + 4O(n)`, which comes out to order `O(nlogn)` runtime.
+
+Python runtimes: https://wiki.python.org/moin/TimeComplexity

@@ -1,0 +1,84 @@
+---
+import navLinks from "../../../data/nav.json";
+---
+
+<nav>
+  <ul role="menubar">
+    {
+      navLinks.map((link: any) => {
+        return (
+          <li class="nav-item" role="menuitem">
+            <a href={link.url} class="nav-item-url">
+              {link.label}
+            </a>
+            {link.subnav ? (
+              <ul class="subnav" role="menu">
+                {link.subnav.map((subnavLink: any) => {
+                  return (
+                    <li class="subnav-item" role="menuitem">
+                      <a href={subnavLink.url}>{subnavLink.label}</a>
+                    </li>
+                  );
+                })}
+              </ul>
+            ) : null}
+          </li>
+        );
+      })
+    }
+  </ul>
+</nav>
+
+<style>
+  li {
+    padding: 0.3rem 1rem;
+  }
+
+  a {
+    text-decoration: none;
+    font-family: "Courier New", Courier, monospace;
+    font-weight: bold;
+    color: black;
+  }
+
+  .nav-item:hover {
+    background-color: black;
+  }
+  .nav-item:hover .nav-item-url {
+    color: white;
+  }
+
+  ul {
+    display: flex;
+    flex-direction: row;
+    list-style: none;
+    position: relative;
+  }
+
+  .subnav {
+    display: flex;
+    flex-direction: column;
+    visibility: hidden;
+    height: 0;
+    position: absolute;
+    top: 1.8rem;
+    z-index: 1;
+  }
+
+  .nav-item:hover .subnav {
+    visibility: visible;
+    height: auto;
+  }
+  .subnav:hover .subnav {
+    visibility: visible;
+    height: auto;
+  }
+
+  .subnav-item:hover {
+    background-color: gray;
+  }
+
+  .subnav-item:hover a {
+    color: white;
+  }
+</style>

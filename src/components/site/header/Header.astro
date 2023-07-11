@@ -1,0 +1,23 @@
+---
+import Nav from "../nav/Nav.astro";
+import Logo from "../../logo/Logo.astro";
+---
+
+<header>
+  <a href="/" class="text-gradient">
+    <Logo />
+  </a>
+  <Nav />
+</header>
+
+<style>
+  a {
+    text-decoration: none;
+  }
+  header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+</style>

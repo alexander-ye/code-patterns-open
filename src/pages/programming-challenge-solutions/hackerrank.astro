@@ -1,0 +1,25 @@
+---
+import { CollectionEntry, getCollection } from "astro:content";
+import { filterCollectionBySubfolder } from "../../utils/generic";
+import Layout from "../../layouts/Layout.astro";
+
+const filterForLeetcode: (
+  entry: CollectionEntry<"programming-challenge-solutions">
+) => boolean = (entry: CollectionEntry<"programming-challenge-solutions">) => {
+  return filterCollectionBySubfolder(entry, "hackerrank");
+};
+
+const hackerrankSolutionPosts: CollectionEntry<"programming-challenge-solutions">[] =
+  await getCollection("programming-challenge-solutions", filterForLeetcode);
+---
+
+<Layout title="HackerRank Solutions">
+  <h1>HackerRank Solutions</h1>
+  {
+    hackerrankSolutionPosts.map((entry: CollectionEntry) => {
+      const postSlug: string = `/${entry.collection}/${entry.slug}`;
+      const postTitle: string = entry.data.title;
+      return <a href={postSlug}>{postTitle}</a>;
+    })
+  }
+</Layout>
