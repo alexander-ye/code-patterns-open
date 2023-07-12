@@ -1,14 +1,13 @@
 ---
 import type { MarkdownHeading } from "astro";
+import _ from 'lodash';
 
 interface Props {
   headings: MarkdownHeading[];
 }
 const { headings } = Astro.props;
 ---
-
-<section style="padding-left: 2rem; margin-bottom: 2rem;">
-  <h2 style="font-weight: 500; margin-bottom: 0;">Table of Contents</h2>
+<nav>
   <ul>
     {
       headings.map((heading: MarkdownHeading) => {
@@ -27,9 +26,53 @@ const { headings } = Astro.props;
       })
     }
   </ul>
-</section>
+</nav>
+
+<script>
+  const observerFunction = () => {
+    const observer: IntersectionObserver = new IntersectionObserver((entries: IntersectionObserverEntry[]) => {
+      let topEntry: IntersectionObserverEntry | null;
+      let topEntryId: string | null;
+
+      const entriesSeen = entries.filter((entry: IntersectionObserverEntry) => {
+        return entry.intersectionRatio > 0;
+      })
+
+      if (entriesSeen?.length) {
+        topEntry = entriesSeen[0];
+        topEntryId = topEntry?.target.getAttribute('id')
+      } 
+
+      entries.forEach((entry: IntersectionObserverEntry) => {
+        const id: string | null = entry.target.getAttribute('id');
+        const linkSelector: string = `main nav ul li a[href="#${id}"]`;
+        if (topEntryId === id) {
+          document.querySelector(linkSelector).parentElement.classList.add('active');
+        } else {
+          document.querySelector(linkSelector).parentElement.classList.remove('active');
+        }
+      })
+    });
+
+    // Track all sections that have an `id` applied
+    document.querySelectorAll('h2[id]').forEach((section) => {
+      observer.observe(section);
+    });
+  }
+
+  window.addEventListener('DOMContentLoaded', observerFunction);
+</script>
+
 
 <style>
+  nav {
+    position: sticky;
+    top: 3rem;
+    align-self: start;
+    display: none;
+    margin-right: 1rem;
+  }
+
   ul {
     list-style: none;
   }
@@ -67,5 +110,20 @@ const { headings } = Astro.props;
   .toc-depth-6 {
     visibility: hidden;
     height: 0;
+  }
+  
+  @media screen and (min-width: 992px) {
+    nav {
+      display: flex;
+      padding: 1rem 0;
+    }
+
+    .active a {
+      color: blue;
+    }
+
+    nav a {
+    transition: all 100ms ease-in-out;
+}
   }
 </style>

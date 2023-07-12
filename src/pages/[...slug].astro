@@ -23,19 +23,42 @@ const { Content, headings } = await entry.render();
 ---
 
 <Post title={entry.data.title}>
-  <h1>{entry.data.title}</h1>
-  {
-    entry.data.src ? (
-      <p>
-        ( source:{" "}
-        <a href={entry.data.src.url} target="_blank">
-          {entry.data.src.domain}
-        </a>
-        )
-      </p>
-    ) : null
-  }
-  <TableofContents headings={headings} />
-
-  <Content />
+  <main>
+    <TableofContents headings={headings} />
+    <article>
+      <h1>{entry.data.title}</h1>
+      {
+        entry.data.src ? (
+          <p>
+            ( source:{" "}
+            <a href={entry.data.src.url} target="_blank">
+              {entry.data.src.domain}
+            </a>
+            )
+          </p>
+        ) : null
+      }
+      <Content />
+    </article>
+  </main>
 </Post>
+
+<style>
+  main {
+    display: flex;
+    flex-direction: row;
+  }
+
+  article {
+    flex: 1;
+    max-width: 800px;
+    margin: auto;
+  }
+
+  @media screen and (min-width: 992px) {
+    article {
+      width: 80%;
+    }
+  }
+
+</style>
