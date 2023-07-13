@@ -28,39 +28,23 @@ const { headings } = Astro.props;
 </nav>
 
 <script>
-  // TODO: FIX THIS. THIS PART IS BROKEN.
-  // INTENDED BEHAVIOR: HIGHLIGHT THE HEADER WHOSE SECTION HAS THE MOST CONTENT.
-  // TECHNICAL CHALLENGE: WITHOUT REFORMATTING MDX FILES TO HAVE <section> COMPONENTS
   const observerFunction = () => {
+    const observerOptions = {
+      threshold: 1,                 // how much we see
+      rootMargin : "0px 0px -66%"   // how big the intersection window is
+    }
+    
     const observer: IntersectionObserver = new IntersectionObserver((entries: IntersectionObserverEntry[]) => {
-      let topEntry: IntersectionObserverEntry | null;
-      let topEntryId: string | null | undefined;
 
-      entries.forEach((entry: IntersectionObserverEntry) => {
-        if (entry.isIntersecting) {
-          if (!topEntry) {
-            topEntry = entry;
-          }
-          else if (entry.intersectionRatio > topEntry.intersectionRatio) {
-            topEntry = entry;
-          } else {
-            topEntry = null;
-          }
-        } 
-      })
-
-      topEntryId = topEntry?.target?.getAttribute("id") || null;
-
-      entries.forEach((entry: IntersectionObserverEntry) => {
+      entries.forEach((entry: any) => {
         const id: string | null = entry.target.getAttribute('id');
         const linkSelector: string = `main nav ul li a[href="#${id}"]`;
-        if (topEntryId === id) {
+        if (entry.isIntersecting) {
+          document.querySelectorAll('main nav ul li a').forEach(element => element.parentElement.classList.remove('active'));
           document.querySelector(linkSelector).parentElement.classList.add('active');
-        } else {
-          document.querySelector(linkSelector).parentElement.classList.remove('active');
         }
       })
-    });
+    }, observerOptions);
 
     // Track all sections that have an `id` applied
     document.querySelectorAll('h2[id]').forEach((h2: Element) => {
@@ -70,7 +54,6 @@ const { headings } = Astro.props;
 
   window.addEventListener('DOMContentLoaded', observerFunction);
 </script>
-
 
 <style>
   nav {
@@ -119,7 +102,7 @@ const { headings } = Astro.props;
     visibility: hidden;
     height: 0;
   }
-  
+
   @media screen and (min-width: 992px) {
     nav {
       display: flex;
@@ -131,7 +114,7 @@ const { headings } = Astro.props;
     }
 
     nav a {
-    transition: all 100ms ease-in-out;
-}
+      transition: all 100ms ease-in-out;
+    }
   }
 </style>
