@@ -1,9 +1,11 @@
 ---
+problem_number: 0
 title: Two-Sum Solution
 src: { domain: LeetCode, url: https://leetcode.com/problems/two-sum/ }
 languages: [Python]
 author: Alex Ye
 ---
+import Codetabs from "../../../components/content/codetabs/Codetabs.tsx";
 
 ## Problem Statement
 
@@ -91,6 +93,8 @@ We do not need to perform additional checks or include fallbacks, as, per the pr
 
 Implementation:
 
+<Codetabs>
+
 ```python
 # LeetCode boilerplate Solution class
 class Solution:
@@ -109,6 +113,14 @@ class Solution:
           # Remember that return statements terminate function execution
           return [i, j]
 ```
+
+```c
+int main() {
+  return 0
+}
+```
+
+</Codetabs>
 
 ### Runtime of Naive Solution
 

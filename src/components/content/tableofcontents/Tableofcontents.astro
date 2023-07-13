@@ -1,6 +1,5 @@
 ---
 import type { MarkdownHeading } from "astro";
-import _ from 'lodash';
 
 interface Props {
   headings: MarkdownHeading[];
@@ -29,19 +28,28 @@ const { headings } = Astro.props;
 </nav>
 
 <script>
+  // TODO: FIX THIS. THIS PART IS BROKEN.
+  // INTENDED BEHAVIOR: HIGHLIGHT THE HEADER WHOSE SECTION HAS THE MOST CONTENT.
+  // TECHNICAL CHALLENGE: WITHOUT REFORMATTING MDX FILES TO HAVE <section> COMPONENTS
   const observerFunction = () => {
     const observer: IntersectionObserver = new IntersectionObserver((entries: IntersectionObserverEntry[]) => {
       let topEntry: IntersectionObserverEntry | null;
-      let topEntryId: string | null;
+      let topEntryId: string | null | undefined;
 
-      const entriesSeen = entries.filter((entry: IntersectionObserverEntry) => {
-        return entry.intersectionRatio > 0;
+      entries.forEach((entry: IntersectionObserverEntry) => {
+        if (entry.isIntersecting) {
+          if (!topEntry) {
+            topEntry = entry;
+          }
+          else if (entry.intersectionRatio > topEntry.intersectionRatio) {
+            topEntry = entry;
+          } else {
+            topEntry = null;
+          }
+        } 
       })
 
-      if (entriesSeen?.length) {
-        topEntry = entriesSeen[0];
-        topEntryId = topEntry?.target.getAttribute('id')
-      } 
+      topEntryId = topEntry?.target?.getAttribute("id") || null;
 
       entries.forEach((entry: IntersectionObserverEntry) => {
         const id: string | null = entry.target.getAttribute('id');
@@ -55,8 +63,8 @@ const { headings } = Astro.props;
     });
 
     // Track all sections that have an `id` applied
-    document.querySelectorAll('h2[id]').forEach((section) => {
-      observer.observe(section);
+    document.querySelectorAll('h2[id]').forEach((h2: Element) => {
+      observer.observe(h2);
     });
   }
 
