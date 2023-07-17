@@ -6,6 +6,7 @@ interface Props {
 }
 const { headings } = Astro.props;
 ---
+
 <nav>
   <ul>
     {
@@ -28,49 +29,38 @@ const { headings } = Astro.props;
 </nav>
 
 <script>
-  // TODO: FIX THIS. THIS PART IS BROKEN.
-  // INTENDED BEHAVIOR: HIGHLIGHT THE HEADER WHOSE SECTION HAS THE MOST CONTENT.
-  // TECHNICAL CHALLENGE: WITHOUT REFORMATTING MDX FILES TO HAVE <section> COMPONENTS
-  const observerFunction = () => {
-    const observer: IntersectionObserver = new IntersectionObserver((entries: IntersectionObserverEntry[]) => {
-      let topEntry: IntersectionObserverEntry | null;
-      let topEntryId: string | null | undefined;
+  const intersectionObsCallback = () => {
+    const observerCallback = (entries: IntersectionObserverEntry[]) => {
+      entries.forEach((entry: Entry) => {
+        const tocLinkSelector: string = "main nav ul li a";
+        const id: string | null = entry.target.getAttribute("id");
+        const linkSelector: string = `${tocLinkSelector}[href="#${id}"]`;
 
-      entries.forEach((entry: IntersectionObserverEntry) => {
+        // If a link touches the intersection window,
+        //    first remove the "active" class (i.e. the highlight) from all other links,
+        //    then add the class back to the current link
         if (entry.isIntersecting) {
-          if (!topEntry) {
-            topEntry = entry;
-          }
-          else if (entry.intersectionRatio > topEntry.intersectionRatio) {
-            topEntry = entry;
-          } else {
-            topEntry = null;
-          }
-        } 
-      })
-
-      topEntryId = topEntry?.target?.getAttribute("id") || null;
-
-      entries.forEach((entry: IntersectionObserverEntry) => {
-        const id: string | null = entry.target.getAttribute('id');
-        const linkSelector: string = `main nav ul li a[href="#${id}"]`;
-        if (topEntryId === id) {
-          document.querySelector(linkSelector).parentElement.classList.add('active');
-        } else {
-          document.querySelector(linkSelector).parentElement.classList.remove('active');
+          document.querySelectorAll(tocLinkSelector).forEach((element) => element.parentElement.classList.remove("active"));
+          document.querySelector(linkSelector).parentElement.classList.add("active");
         }
-      })
-    });
+      });
+    };
 
-    // Track all sections that have an `id` applied
-    document.querySelectorAll('h2[id]').forEach((h2: Element) => {
+    const observerOptions = {
+      threshold: 1,                 // how many pixels are on the screen
+      rootMargin: "0px 0px -66%",   // how big the intersection window is
+    };
+
+    const observer: IntersectionObserver = new IntersectionObserver(observerCallback, observerOptions);
+
+    // Track all h2s in the article that have an id applied
+    document.querySelectorAll("h2[id]").forEach((h2: Element) => {
       observer.observe(h2);
     });
-  }
+  };
 
-  window.addEventListener('DOMContentLoaded', observerFunction);
+  window.addEventListener("DOMContentLoaded", intersectionObsCallback);
 </script>
-
 
 <style>
   nav {
@@ -119,7 +109,7 @@ const { headings } = Astro.props;
     visibility: hidden;
     height: 0;
   }
-  
+
   @media screen and (min-width: 992px) {
     nav {
       display: flex;
@@ -131,7 +121,7 @@ const { headings } = Astro.props;
     }
 
     nav a {
-    transition: all 100ms ease-in-out;
-}
+      transition: all 100ms ease-in-out;
+    }
   }
 </style>
