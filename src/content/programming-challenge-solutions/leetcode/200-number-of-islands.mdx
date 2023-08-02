@@ -1,0 +1,85 @@
+---
+problem_number: 200
+title: Number of Islands
+src: { domain: LeetCode, url: https://leetcode.com/problems/number-of-islands/, difficulty: 'Medium' }
+languages: [Python]
+author: Alex Ye
+---
+
+## Problem Statement
+
+<blockquote src={frontmatter.src_url}>
+Given an `m x n` 2D binary grid `grid` which represents a map of `'1'`s (land) and `'0'`s (water), return _the number of islands_.
+
+An **island** is surrounded by water and is formed by connecting adjacent lands horizontally or vertically. You may assume all four edges of the grid are all surrounded by water.
+
+**Constraints**
+
+- `m == grid.length`
+- `n == grid[i].length`
+- `1 <= m, n <= 300`
+- `grid[i][j] is '0' or '1'`
+
+<details>
+<summary><strong>Example Test Cases</strong></summary>
+
+**Example 1:**
+
+```
+Input: grid = [
+  ["1","1","1","1","0"],
+  ["1","1","0","1","0"],
+  ["1","1","0","0","0"],
+  ["0","0","0","0","0"]
+]
+Output: 1
+```
+
+**Example 2:**
+
+```
+Input: grid = [
+  ["1","1","0","0","0"],
+  ["1","1","0","0","0"],
+  ["0","0","1","0","0"],
+  ["0","0","0","1","1"]
+]
+Output: 3
+```
+
+
+</details>
+</blockquote>
+
+## Solution
+
+```python
+class Solution:
+  def numIslands(self, grid: List[List[str]]) -> int:
+    # Initialize return value
+    num_islands = 0
+
+    # Recursive dfs function that marks visited islands
+    # Once we find a chunk of land, recursively mark the entire island
+    def markIsland(grid, row, col):
+      # If indices fall out of baounds OR we don't find land, don't do anything
+      if row < 0 or row >= len(grid) or col < 0 or col >= len(grid[0]) or grid[row][col] != '1':
+          return
+      # Replace all adjacent land with '#' (marking island in place prevents counting the island more than once)
+      grid[row][col] = '#'
+      markIsland(grid, row - 1, col)
+      markIsland(grid, row + 1, col)
+      markIsland(grid, row, col - 1)
+      markIsland(grid, row, col + 1)
+
+    for i in range(len(grid)):
+      for j in range(len(grid[0])):
+        # If we find land
+        if grid[i][j] == '1':
+          # Increase count of islands we found
+          markIsland(grid, i, j)
+          # Mark entire island to prevent overcounting
+          num_islands += 1
+  
+    return num_islands
+```

@@ -1,0 +1,100 @@
+---
+problem_number: 733
+title: Flood Fill Solution
+src: { domain: LeetCode, url: https://leetcode.com/problems/flood-fill/, difficulty: 'Easy' }
+languages: [Python]
+author: Alex Ye
+---
+
+## Problem Statement
+
+<blockquote src={frontmatter.src_url}>
+
+An image is represented by an `m x n` integer grid `image` where `image[i][j]` represents the pixel value of the image.
+
+You are also given three integers `sr`, `sc`, and `color`. You should perform a **flood fill** on the image starting from the pixel `image[sr][sc]`.
+
+To perform a **flood fill**, consider the starting pixel, plus any pixels connected **4-directionally** to the starting pixel of the same color as the starting pixel, plus any pixels connected **4-directionally** to those pixels (also with the same color), and so on. Replace the color of all of the aforementioned pixels with `color`.
+
+_Return the modified image after performing the flood fill._
+
+
+**Constraints**
+
+- `m == image.length`
+- `n == image[i].length`
+- `1 <= m, n <= 50`
+- <code>0 {'<='} image[i][j], color < 2<sup>16</sup></code>
+- `0 <= sr < m`
+- `0 <= sc < n`
+
+
+<details>
+<summary><strong>Example Test Cases</strong></summary>
+
+**Example 1:**
+
+```
+Input: image = [[1,1,1],[1,1,0],[1,0,1]], sr = 1, sc = 1, color = 2
+Output: [[2,2,2],[2,2,0],[2,0,1]]
+Explanation: From the center of the image with position (sr, sc) = (1, 1) (i.e., the red pixel), all pixels connected by a path of the same color as the starting pixel (i.e., the blue pixels) are colored with the new color.
+Note the bottom corner is not colored 2, because it is not 4-directionally connected to the starting pixel.
+```
+
+**Example 2:**
+
+```
+Input: image = [[0,0,0],[0,0,0]], sr = 0, sc = 0, color = 0
+Output: [[0,0,0],[0,0,0]]
+Explanation: The starting pixel is already colored 0, so no changes are made to the image.
+```
+
+
+</details>
+</blockquote>
+
+## Solution
+
+```python
+class Solution:
+  def floodFill(self, image: List[List[int]], sr: int, sc: int, color: int) -> List[List[int]]:
+    starting_color = image[sr][sc]
+
+    # If the old color is the same as the new color, we return the image as is
+    # Prevent unnecessary work, prevent infinite recursion
+    if starting_color == color:
+      return image
+
+    # Recursive function
+    def fillCell(image, r, c, old_color, new_color):
+      num_rows = len(image)
+      num_cols = len(image[0])
+
+      # In Python, we can use empty return statements that serve as early exits from functions
+      # Similar to "breaks" in loops
+
+      # If our parameteres fall outside the bounds of our grid
+      if r < 0 or r >= num_rows:
+        return
+      if c < 0 or c >= num_cols:
+        return
+      # If the current pixel color is not the same as the pixel we previously looked at
+      if image[r][c] != old_color:
+        return
+
+      # If we are in an adjacent cell in the grid and the color is the same as the old color
+      # Fill the pixel in with the new color
+      image[r][c] = new_color
+
+      # Recursive call to the top, botttom, right, and left pixels
+      fillCell(image, r - 1, c, old_color, new_color)
+      fillCell(image, r + 1, c, old_color, new_color)
+      fillCell(image, r, c + 1, old_color, new_color)
+      fillCell(image, r, c - 1, old_color, new_color)
+
+    # Initial call to fillCell on starting row/starging column pixel
+    fillCell(image, sr, sc, starting_color, color)
+
+    # Return the image after completing modifications
+    return image
+```

@@ -2,7 +2,9 @@
 import { getCollection } from "astro:content";
 import Post from "../layouts/post/Post.astro";
 import TableofContents from "../components/content/tableofcontents/Tableofcontents.astro";
+import colors from "../data/colors.json";
 
+const difficultyColor: any = colors.difficulties;
 // 1. Generate a new path for every collection entry
 export async function getStaticPaths() {
   const codingChallengeSolutions = await getCollection(
@@ -29,13 +31,31 @@ const { Content, headings } = await entry.render();
       <h1>{entry.data.title}</h1>
       {
         entry.data.src ? (
-          <p>
-            ( source:{" "}
-            <a href={entry.data.src.url} target="_blank">
-              {entry.data.src.domain}
-            </a>
-            )
-          </p>
+          <div style="display: flex; flex-direction: column; align-items: start;">
+            {entry.data.src.difficulty ? (
+              <p
+                style={`
+                  font-size: 14px;
+                  background-color: ${
+                    difficultyColor[entry.data.src.difficulty]
+                  };
+                  padding: 4px 1rem;
+                  margin: 0;
+                  border-radius: 4px;
+                  text-align: center;
+                `}
+              >
+                {entry.data.src.difficulty}
+              </p>
+            ) : null}
+            <p style="margin: 0;">
+              ( source:{" "}
+              <a href={entry.data.src.url} target="_blank">
+                {entry.data.src.domain}
+              </a>
+              )
+            </p>
+          </div>
         ) : null
       }
       <Content />
@@ -60,5 +80,4 @@ const { Content, headings } = await entry.render();
       width: 80%;
     }
   }
-
 </style>

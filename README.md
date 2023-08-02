@@ -17,6 +17,10 @@ Otherwise your markdown files&mdash;specifically your code blocks&mdash;will be 
 npm create astro@latest -- --template basics
 ```
 
+### Core Versioning Requirements
+Astro version `v2.9.3`
+npm version `v9.5.1`
+node version `v18.16.0`
 
 ### 🧞 Commands
 

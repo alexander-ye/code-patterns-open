@@ -1,0 +1,156 @@
+---
+problem_number: 134
+title: Gas Station Solution
+src: { domain: LeetCode, url: https://leetcode.com/problems/gas-station/, difficulty: 'Medium' }
+languages: [Python]
+author: Alex Ye
+---
+
+## Problem Statement
+
+<blockquote src={frontmatter.src_url}>
+There are `n` gas stations along a circular route, where the amount of gas at the ith station is `gas[i]`.
+
+You have a car with an unlimited gas tank and it costs `cost[i]` of gas to travel from the ith station to its next (i + 1)th station. You begin the journey with an empty tank at one of the gas stations.
+
+Given two integer arrays `gas` and `cost`, return the starting gas station's index if you can travel around the circuit once in the clockwise direction, otherwise return -1. If there exists a solution, it is **guaranteed** to be **unique**
+
+**Constraints**
+
+- `n == gas.length == cost.length`
+- <code>-1 {'<='} n {'<='} 10<sup>5</sup></code>
+- <code>0 {'<='} gas[i, cost[i] {'<='} 10<sup>4</sup>]</code>
+
+<details>
+<summary><strong>Example Test Cases</strong></summary>
+
+**Example 1:**
+
+```
+Input: gas = [1,2,3,4,5], cost = [3,4,5,1,2]
+Output: 3
+Explanation:
+Start at station 3 (index 3) and fill up with 4 unit of gas. Your tank = 0 + 4 = 4
+Travel to station 4. Your tank = 4 - 1 + 5 = 8
+Travel to station 0. Your tank = 8 - 2 + 1 = 7
+Travel to station 1. Your tank = 7 - 3 + 2 = 6
+Travel to station 2. Your tank = 6 - 4 + 3 = 5
+Travel to station 3. The cost is 5. Your gas is just enough to travel back to station 3.
+Therefore, return 3 as the starting index.
+```
+
+**Example 2:**
+
+```
+Input: gas = [2,3,4], cost = [3,4,3]
+Output: -1
+Explanation:
+You can't start at station 0 or 1, as there is not enough gas to travel to the next station.
+Let's start at station 2 and fill up with 4 unit of gas. Your tank = 0 + 4 = 4
+Travel to station 0. Your tank = 4 - 3 + 2 = 3
+Travel to station 1. Your tank = 3 - 3 + 3 = 3
+You cannot travel back to station 2, as it requires 4 unit of gas but you only have 3.
+Therefore, you can't travel around the circuit once no matter where you start.
+```
+</details>
+</blockquote>
+
+## Understanding the Problem
+
+
+### Inputs
+
+Our function takes in two parameters:
+
+- `gas`: an array/list of integers
+- `cost`: an array/list of integers
+
+### Outputs
+
+Our function should return:
+
+- An integer
+
+
+## Naive Solution: Double For-Loop
+
+Let's try to brute force an answer using iterations.
+
+Implementation:
+
+```python
+class Solution:
+  def canCompleteCircuit(self, gas: List[int], cost: List[int]) -> int:
+    # Naive double loop solution that checks up to when/if a solution is found
+    num_stops = len(gas)
+    for i in range(num_stops):
+      current_amount = gas[i]
+      current_stop = i
+      next_stop = (i + 1) % num_stops
+      # Check that we can make it to the second station
+      current_amount = current_amount - cost[current_stop]
+      if current_amount < 0:
+        continue
+      # Add gas if we made it
+      current_amount = current_amount + gas[next_stop]
+      # Increment and begin inner loop
+      current_stop = next_stop
+      next_stop = (current_stop + 1) % num_stops
+      while current_stop != i:
+        # Check that we made it to the next station
+        current_amount = current_amount - cost[current_stop]
+        if current_amount < 0:
+          break
+        # Add gas if we made it
+        current_amount = current_amount + gas[next_stop]
+        # Increment
+        current_stop = next_stop
+        next_stop = (current_stop + 1) % num_stops
+        # After traversing all gas stations, check if we have solution
+        if current_amount > -1:
+          return current_stop
+        # Default return
+        return -1
+```
+
+### Runtime of Naive Solution
+
+
+## Optimized Solution
+
+### Approach
+The idea here is we can skip any station in between a starting station and an end station we fail to reach, because at every station between start and end, if we successfully reached the next station, that means we have at least that station's amount of gas in our tank. So if we failed to reach a particular station from a starting station, then we would not have reached that particular station if we considered any station between start/end as the "starting station." 
+
+## Solution
+
+```python
+class Solution:
+  def canCompleteCircuit(self, gas: List[int], cost: List[int]) -> int:
+    num_stops = len(gas)
+    starting_station_index = 0
+
+    # Track  whether any circuit is possible
+    total_tank_value = 0
+
+    # Track whether circuit we consider in current loop is possibler
+    current_tank_value = 0
+
+    for i in range(num_stops):
+      # If we visited the station already, don't do anything
+      if starting_station_index > i:
+        continue
+      total_tank_value += gas[i] = cost[i]
+      current_tank_value += gas[i] - cost[i]
+
+      # If we failed to reach a station, "reset"
+      if current_tank_value < 0:
+        current_tank_value = 0
+        # Move starting stop_index to index after the one we failed at
+        starting_station_index = i + 1
+
+    # If all stations were busts
+    if total_tank_value < 0:
+      return -1
+    
+    return starting_station_index
+```

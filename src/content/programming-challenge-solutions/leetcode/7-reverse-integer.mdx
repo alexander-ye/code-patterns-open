@@ -1,0 +1,111 @@
+---
+problem_number: 7
+title: Reverse Integer
+src: { domain: LeetCode, url: https://leetcode.com/problems/reverse-intteger/, difficulty: 'Medium' }
+languages: [Python]
+author: Alex Ye
+---
+
+## Problem Statement
+
+<blockquote src={frontmatter.src_url}>
+
+Given a signed 32-bit integer `x`, return x with its digits _reversed_. If reversing `x` causes the value to go outside the signed 32-bit integer range <code>[-2<sup>31</sup>, 2<sup>31</sup> - 1]</code>, then return `0`.
+
+**Assume the environment does not allow you to store 64-bit integers (signed or unsigned).**
+
+**Constraints**
+
+<code>-2<sup>31</sup> {'<='} x {'<='} 2<sup>31</sup>-1</code>
+
+<details>
+<summary><strong>Example Test Cases</strong></summary>
+
+**Example 1:**
+
+```
+Input: x = 123
+Output: 321
+```
+
+**Example 2:**
+
+```
+Input: x = -123
+Output: -321
+```
+
+**Example 3:**
+
+```
+Input: x = 120
+Output: 21
+```
+
+
+</details>
+</blockquote>
+
+## Solution
+
+```python
+class Solution:
+  def reverse(self, x: int) -> int:
+    # Lower bound
+    maxNegative = -2 ** 31
+    # Upper bound
+    maxPositive = 2**31 - 1
+
+    # Track whether number is positive/negative
+    sign = -1 if x < 0 else 1
+
+    # Convert integer into string without negative sign
+    strInt = str(x).replace('-', '')
+
+    # Use Python's built-in slice operator to reverse string
+    reversedStrInt = strInt[::-1]
+
+    # Cast reversed string as integer
+    reversedInt = int(reversedStrInt)
+
+    # Make sure reversed number has same sign as original number
+    out = sign * reversedInt
+
+    # Make sure reversed number falls within 32-bit integer bounds
+    if out < maxNegative or out > maxPositive:
+      return 0
+    return out
+```
+
+## Solution
+
+```python
+class Solution:
+  def reverse(self, x: int) -> int:
+    # Lower bound
+    maxNegative = -2 ** 31
+    # Upper bound
+    maxPositive = 2**31 - 1
+
+    # Track whether number is positive/negative
+    sign = -1 if x < 0 else 1
+
+    x *= sign
+
+    xReversed = 0
+
+    # Add the last digit of the number to our xReversed to create our reversed integer
+    while x > 0:
+      xReversed = xReversed * 10 + x % 10
+      x = x // 10
+    
+    # Ensure reversed number has same sign as original nunmber
+    xReversed *= sign
+
+    # Return 0 if reversed number exceeds 32-bit integer bounds
+    if xReversed < maxNegative or xReversed > maxPositive:
+      return 0
+    
+    # Output reversed number, if within 32-bit integer bounds
+    return xReversed
+```
