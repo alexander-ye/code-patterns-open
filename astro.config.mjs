@@ -5,8 +5,12 @@ import react from "@astrojs/react";
 
 // https://astro.build/config
 export default defineConfig({
-  integrations: [mdx(), react()],
-  markdown: {
-    // Applied to .md and .mdx files
-  },
+  integrations: [
+    mdx({
+      optimize: false,
+      extendMarkdownConfig: false,
+      customComponentNames: ["pre"],
+    }),
+    react({ experimentalReactChildren: true }),
+  ],
 });

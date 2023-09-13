@@ -1,0 +1,119 @@
+---
+problem_number: 1
+title: Two-Sum Solution
+src:
+  {
+    domain: LeetCode,
+    url: https://leetcode.com/problems/add-two-numbers/,
+    difficulty: "Medium",
+  }
+languages: [Python]
+author: Alex Ye
+---
+
+## Problem Statement
+
+<blockquote src={frontmatter.src_url}>
+You are given two *non-empty* linked lists representing two non-negative integers. The digits are stored in *reverse order*, and each of their nodes contains a single digit. Add the two numbers and return the sum as a linked list.
+
+You may assume the two numbers do not contain any leading zero, except the number 0 itself.
+
+**Constraints**
+
+- The number of nodes in each linked list is in the range `[1, 100]`.
+- <code>
+    0 {"<="} Node.val {"<="} 9
+  </code>
+- It is guaranteed that the list represents a number that does not have leading zeros.
+
+<details>
+<summary><strong>Example Test Cases</strong></summary>
+
+**Example 1:**
+
+```
+2 -> 4 -> 3
+5 -> 6 -> 4
+= 7 -> 0 -> 8
+
+Input: l1 = [2,4,3], l2 = [5,6,4]
+Output: [7,0,8]
+Explanation: 342 + 465 = 807.
+```
+
+**Example 2:**
+
+```
+
+Input: l1 = [0], l2 = [0]
+Output: [0]
+```
+
+**Example 3:**
+
+```
+Input: l1 = [9,9,9,9,9,9,9], l2 = [9,9,9,9]
+Output: [8,9,9,9,0,0,0,1]
+```
+
+</details>
+</blockquote>
+
+## Solution
+
+```python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+
+class Solution:
+  def addTwoNumbers(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:
+    out = ListNode()
+
+    # First pass
+    nodeSum = l1.val + l2.val
+    digitSum = nodeSum % 10
+    out.val = digitSum
+    plusOne = nodeSum > 9
+    if (l1 == None or l1.next == None) and (l2 == None or l2.next == None):
+      if plusOne:
+        out.next = ListNode(1, None)
+      return out
+
+    # Sum next digits
+    nextNode = ListNode()
+    out.next = nextNode
+    l1node = l1.next
+    l2node = l2.next
+    hasNextDigit = True
+
+
+    while hasNextDigit:
+      l1val = l1node.val if l1node != None else 0
+      l2val = l2node.val if l2node != None else 0
+      nodeSum = l1val + l2val
+
+      if plusOne:
+        nodeSum += 1
+
+      plusOne = nodeSum > 9
+      digitSum = nodeSum % 10
+      nextNode.val = digitSum
+
+      if (l1node == None or l1node.next == None) and (l2node == None or l2node.next == None):
+        # End traversal
+        hasNextDigit = False
+        if plusOne:
+          nextNode.next = ListNode(1, None)
+      else:
+        # Traverse digit
+        l1node = l1node.next if l1node != None else None
+        l2node = l2node.next if l2node != None else None
+        newNode = ListNode()
+        nextNode.next = newNode
+        nextNode = newNode
+
+    return out
+```

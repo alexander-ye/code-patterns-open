@@ -1,0 +1,85 @@
+---
+problem_number: 20
+title: Valid Parentheses Solution
+src:
+  {
+    domain: LeetCode,
+    url: https://leetcode.com/problems/valid-parentheses/,
+    difficulty: "Easy",
+  }
+languages: [Python]
+author: Alex Ye
+---
+
+## Problem Statement
+
+<blockquote src={frontmatter.src_url}>
+
+Given a string s containing just the characters `'(', ')'`, `'{', '}'`, `'['` and `']'`, determine if the input string is valid.
+
+An input string is valid if:
+
+1. Open brackets must be closed by the same type of brackets.
+2. Open brackets must be closed in the correct order.
+3. Every close bracket has a corresponding open bracket of the same type.
+
+**Constraints**
+
+- <code>
+    1 {"<="} s.length {"<="} 10<sup>4</sup>
+  </code>
+- `s` consists of parentheses only `'()[]{}'`.
+
+<details>
+<summary><strong>Example Test Cases</strong></summary>
+
+**Example 1:**
+
+```
+Input: s = "()"
+Output: true
+```
+
+**Example 2:**
+
+```
+Input: s = "()[]{}"
+Output: true
+```
+
+**Example 3:**
+
+```
+Input: s = "(]"
+Output: false
+```
+
+</details>
+</blockquote>
+
+## Solution: Stack
+
+Use list as though it were a stack.
+
+```python
+class Solution:
+  valid_pairs = {
+      '{': '}',
+      '(': ')',
+      '[': ']'
+  }
+
+  def isValid(self, s: str) -> bool:
+    stack = []
+    for char in s:
+      if char in self.valid_pairs:
+        stack.append(char)
+      elif len(stack) == 0:
+        return False
+      elif char != self.valid_pairs[stack[-1]]:
+        return False
+      else:
+          stack.pop()
+    if len(stack) > 0: return False
+    return True
+```

@@ -1,10 +1,16 @@
 ---
-problem_number: 0
+problem_number: 1
 title: Two-Sum Solution
-src: { domain: LeetCode, url: https://leetcode.com/problems/two-sum/, difficulty: 'Easy' }
+src:
+  {
+    domain: LeetCode,
+    url: https://leetcode.com/problems/two-sum/,
+    difficulty: "Easy",
+  }
 languages: [Python]
 author: Alex Ye
 ---
+
 import Codetabs from "../../../components/content/codetabs/Codetabs.tsx";
 
 ## Problem Statement
@@ -18,9 +24,15 @@ You can return the answer in any order.
 
 **Constraints**
 
-- <code>2 {'<='} nums.length {'<='} 10<sup>4</sup></code>
-- <code>-10<sup>9</sup> {'<='} nums[i] {'<='} 10<sup>9</sup></code>
-- <code>-10<sup>9</sup> {'<='} target {'<='} 10<sup>9</sup></code>
+- <code>
+    2 {"<="} nums.length {"<="} 10<sup>4</sup>
+  </code>
+- <code>
+    -10<sup>9</sup> {"<="} nums[i] {"<="} 10<sup>9</sup>
+  </code>
+- <code>
+    -10<sup>9</sup> {"<="} target {"<="} 10<sup>9</sup>
+  </code>
 - _Only one valid answer exists._
 
 <details>
@@ -47,6 +59,7 @@ Output: [1,2]
 Input: nums = [3,3], target = 6
 Output: [0,1]
 ```
+
 </details>
 </blockquote>
 
@@ -94,7 +107,6 @@ We do not need to perform additional checks or include fallbacks, as, per the pr
 Implementation:
 
 <Codetabs>
-
 ```python
 # LeetCode boilerplate Solution class
 class Solution:
@@ -133,7 +145,9 @@ Ahh, looks like LeetCode called us out. So our solution works, but it's not opti
 For our efficient approach, we will create a hash table to store key value pairs:
 
 ```
+
 {key [number]: value [index_of_number]}
+
 ```
 
 Once we've created the hash table, we will iterate through the array exactly once:

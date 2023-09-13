@@ -9,7 +9,7 @@ const Codetabs = ({ children }: any) => {
       return <TODO: Tab Selector />
         })} */}
       </div>
-      {React.Children.map(children, (child: any) => {
+      {React.Children.map(children, (child: any, index: any) => {
         return child;
       })}
     </section>
