@@ -1,6 +1,7 @@
 ---
 import { CollectionEntry, getCollection } from "astro:content";
 import { filterCollectionBySubfolder } from "../../utils/generic";
+import { sortEntriesByProblemNumber } from "../../utils/leetcode";
 import SolutionArticleCard from "../../components/content/Solutionarticlecard/Solutionarticlecard.astro";
 import Layout from "../../layouts/Layout.astro";
 
@@ -12,6 +13,8 @@ const filterForLeetcode: (
 
 const leetcodeSolutionPosts: CollectionEntry<"programming-challenge-solutions">[] =
   await getCollection("programming-challenge-solutions", filterForLeetcode);
+
+leetcodeSolutionPosts.sort(sortEntriesByProblemNumber);
 ---
 
 <Layout title="LeetCode Solutions">

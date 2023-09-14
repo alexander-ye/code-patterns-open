@@ -2,6 +2,7 @@
 import { CollectionEntry, getCollection } from "astro:content";
 import { filterCollectionBySubfolder } from "../../utils/generic";
 import Layout from "../../layouts/Layout.astro";
+import SolutionArticleCard from "../../components/content/Solutionarticlecard/Solutionarticlecard.astro";
 
 const filterForLeetcode: (
   entry: CollectionEntry<"programming-challenge-solutions">
@@ -15,11 +16,25 @@ const hackerrankSolutionPosts: CollectionEntry<"programming-challenge-solutions"
 
 <Layout title="HackerRank Solutions">
   <h1>HackerRank Solutions</h1>
-  {
-    hackerrankSolutionPosts.map((entry: CollectionEntry) => {
-      const postSlug: string = `/${entry.collection}/${entry.slug}`;
-      const postTitle: string = entry.data.title;
-      return <a href={postSlug}>{postTitle}</a>;
-    })
-  }
+  <section
+    style="
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-gap: 10px;"
+  >
+    {
+      hackerrankSolutionPosts.map((entry: CollectionEntry) => {
+        const postSlug: string = `/${entry.collection}/${entry.slug}`;
+        const postTitle: string = entry.data.title;
+        const problemDifficulty: string = entry.data.src?.difficulty || "";
+        return (
+          <SolutionArticleCard
+            href={postSlug}
+            title={postTitle}
+            difficulty={problemDifficulty}
+          />
+        );
+      })
+    }
+  </section>
 </Layout>

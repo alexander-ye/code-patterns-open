@@ -1,0 +1,116 @@
+---
+problem_number: 648
+title: Replace Words Solution
+src:
+  {
+    domain: LeetCode,
+    url: https://leetcode.com/problems/replace-words/,
+    difficulty: "Medium",
+  }
+languages: [Python]
+author: Alex Ye
+---
+
+## Problem Statement
+
+<blockquote src={frontmatter.src_url}>
+
+In English, we have a concept called **root**, which can be followed by some other word to form another longer word - let's call this word **successor**. For example, when the **root** `"an"` is followed by the **successor** word `"other"`, we can form a new word `"another"`.
+
+Given a `dictionary` consisting of many roots and a `sentence` consisting of words separated by spaces, replace all the **successors** in the sentence with the **root** forming it. If a successor can be replaced by more than one **root**, replace it with the **root** that has **the shortest length**.
+
+Return the `sentence` after the replacement.
+
+**Constraints**
+
+- <code>
+    1 {"<="} dictionary.length {"<="} 1000
+  </code>
+- <code>
+    1 {"<="} dictionary[i].length {"<="} 100
+  </code>
+- `dictionary[i]` consists of only lower-case letters.
+- <code>
+    1 {"<="} sentence.length {"<="} 10<sup>6</sup>
+  </code>
+- `sentence` consists of only lower-case letters and spaces.
+- The number of words in `sentence` is in the range `[1, 1000]`
+- The length of each word in `sentence` is in the range `[1, 1000]`
+- Every two consecutive words in `sentence` will be separated by exactly one space.
+- `sentence` does not have leading or trailing spaces.
+
+<details>
+<summary><strong>Example Test Cases</strong></summary>
+
+**Example 1:**
+
+```
+Input: dictionary = ["cat","bat","rat"], sentence = "the cattle was rattled by the battery"
+Output: "the cat was rat by the bat"
+```
+
+**Example 2:**
+
+```
+Input: dictionary = ["a","b","c"], sentence = "aadsfasf absbs bbab cadsfafs"
+Output: "a a b c"
+```
+
+</details>
+</blockquote>
+
+## Solution: Set and Loops
+
+```python
+class Solution:
+  def replaceWords(self, dictionary: List[str], sentence: str) -> str:
+    words = sentence.split()
+    dictionary = set(dictionary)
+    replacements = []
+    for word in words:
+      root = word
+      for i in range(len(word)):
+        sub = word[:i + 1]
+        if sub in dictionary:
+          root = sub
+          break
+      replacements.append(root)
+    return " ".join(replacements)
+```
+
+## Solution: Trie
+
+```python
+class Solution:
+  def replaceWords(self, dictionary: List[str], sentence: str) -> str:
+
+    trie = {}
+
+    words = sentence.split()
+
+    # Convert dictionary into trie
+    for root in dictionary:
+      currentTree = trie
+      for char in root:
+        if char not in currentTree:
+          currentTree[char] = {}
+        currentTree = currentTree[char]
+      currentTree['*'] = ''
+
+    replacements = []
+
+    for word in words:
+      currentTree = trie
+      result = ''
+      for char in word:
+        if char in currentTree:
+          result += char
+          currentTree = currentTree[char]
+          if '*' in currentTree:
+            break
+        else:
+          break
+      replacements.append(result if '*' in currentTree else word)
+
+    return " ".join(replacements)
+```
