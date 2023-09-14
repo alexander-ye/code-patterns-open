@@ -1,0 +1,81 @@
+---
+problem_number: 242
+title: Valid Anagram
+src:
+  {
+    domain: LeetCode,
+    url: https://leetcode.com/problems/valid-anagram/,
+    difficulty: "Easy",
+  }
+languages: [Python]
+author: Alex Ye
+---
+
+## Problem Statement
+
+<blockquote src={frontmatter.src_url}>
+
+Given two strings `s` and `t`, return _`true` if `t` is an anagram of `s`, and `false` otherwise_.
+
+An **Anagram** is a word or phrase formed by rearranging the letters of a different word or phrase, typically using all the original letters exactly once.
+
+**Follow up:** What if the inputs contain Unicode characters? How would you adapt your solution to such a case?
+
+**Constraints**
+
+- <code>
+    1 {"<="} s.length, t.length {"<="} 5 * 10<sup>4</sup>
+  </code>
+- `s` and `t` consist of lowercase English letters.
+
+<details>
+<summary><strong>Example Test Cases</strong></summary>
+
+**Example 1:**
+
+```
+Input: s = "anagram", t = "nagaram"
+Output: true
+```
+
+**Example 2:**
+
+```
+Input: s = "rat", t = "car"
+Output: false
+```
+
+</details>
+</blockquote>
+
+## Solution: Hashmap
+
+```python
+class Solution:
+  def isAnagram(self, s: str, t: str) -> bool:
+    if len(s) != len(t):
+      return False
+    count = {}
+    for char in s:
+      if char in count:
+        count[char] += 1
+      else:
+        count[char] = 1
+    for char in t:
+      if char not in count:
+        return False
+      else:
+        count[char] -= 1
+    for count in count.values():
+      if count != 0:
+        return False
+    return True
+```
+
+## Solution: Sorting
+
+```python
+class Solution:
+  def isAnagram(self, s: str, t: str) -> bool:
+    return sorted(s) == sorted(t)
+```

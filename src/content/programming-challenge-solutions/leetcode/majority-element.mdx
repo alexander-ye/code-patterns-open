@@ -1,0 +1,99 @@
+---
+problem_number: 169
+title: Majority Element
+src:
+  {
+    domain: LeetCode,
+    url: https://leetcode.com/problems/majority-element/,
+    difficulty: "Easy",
+  }
+languages: [Python]
+author: Alex Ye
+---
+
+## Problem Statement
+
+<blockquote src={frontmatter.src_url}>
+
+Given an array `nums` of size `n`, return _the majority element_.
+
+The majority element is the element that appears more than `⌊n / 2⌋` times. You may assume that the majority element always exists in the array.
+
+**Constraints**
+
+- `n == nums.length`
+- <code>
+    1 {"<="} n {"<="} 5 * 10<sup>4</sup>
+  </code>
+- <code>
+    -10<sup>9</sup> {"<="} nums[i] {"<="} 10<sup>9</sup>
+  </code>
+
+<details>
+<summary><strong>Example Test Cases</strong></summary>
+
+**Example 1:**
+
+```
+Input: nums = [3,2,3]
+Output: 3
+```
+
+**Example 2:**
+
+```
+Input: nums = [2,2,1,1,1,2,2]
+Output: 2
+```
+
+</details>
+</blockquote>
+
+## Solution: Sorting
+
+The element in the middle is guaranteed to be the answer---by definition of majority.
+
+```python
+class Solution:
+  def majorityElement(self, nums: List[int]) -> int:
+    return sorted(nums)[len(nums) // 2]
+```
+
+## Solution: Hash Map
+
+```python
+class Solution:
+  def majorityElement(self, nums: List[int]) -> int:
+    counts = {}
+    for num in nums:
+      if num in counts:
+        counts[num] += 1
+      else:
+        counts[num] = 1
+    n = len(nums) // 2
+    for number, count in counts.items():
+      if count > n:
+        return number
+```
+
+## Solution: Moore's Voting Algorithm
+
+```python
+class Solution:
+  def majorityElement(self, nums: List[int]) -> int:
+    # Moore's Voting Algorithm
+    n = len(nums) // 2
+    candidate = 0
+    count = 0
+
+    for num in nums:
+      if count == 0:
+        candidate = num
+        count = 1
+      elif num == candidate:
+        count += 1
+      else:
+        count -= 1
+
+    return candidate
+```
