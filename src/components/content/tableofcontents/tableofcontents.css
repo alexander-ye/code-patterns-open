@@ -1,0 +1,61 @@
+.article-toc {
+  position: sticky;
+  top: 3rem;
+  align-self: start;
+  display: none;
+  margin-right: 1rem;
+}
+
+.article-toc ul {
+  list-style: none;
+}
+
+.toc-header a {
+  text-decoration: none;
+  color: black;
+}
+
+.toc-depth-1 {
+  font-size: 24px;
+}
+
+.toc-depth-2 {
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.toc-depth-3 {
+  font-size: 18px;
+  margin-left: 1rem;
+  font-weight: 400;
+}
+
+.toc-depth-4 {
+  font-size: 16px;
+  margin-left: 2rem;
+}
+
+.toc-depth-5 {
+  visibility: hidden;
+  height: 0;
+}
+
+.toc-depth-6 {
+  visibility: hidden;
+  height: 0;
+}
+
+@media screen and (min-width: 992px) {
+  .article-toc {
+    display: flex;
+    padding: 1rem 0;
+  }
+
+  .active a {
+    color: blue;
+  }
+
+  .article-toc a {
+    transition: all 100ms ease-in-out;
+  }
+}

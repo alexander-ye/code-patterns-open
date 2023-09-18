@@ -1,0 +1,20 @@
+.logo-wrapper {
+  padding: 0.2rem;
+  border: 2px solid black;
+  border-radius: 6px;
+}
+
+.logo-text {
+  padding: 0.2rem;
+  font-family: "Courier New", Courier, monospace;
+  font-weight: bolder;
+  color: black;
+}
+
+.logo-wrapper:hover {
+  background-color: black;
+}
+
+.logo-wrapper:hover .logo-text {
+  color: white;
+}
