@@ -29,7 +29,9 @@ export async function generateStaticParams() {
   const postFilePaths = getMarkdownFilePaths();
   return postFilePaths.map((filePath: string) => {
     const [slugPath, slugSegment] = getSlugFromPath(filePath);
-    return { slug: slugPath.split("/") };
+    return {
+      slug: slugPath.split("/").filter((subStr: string) => subStr !== ""),
+    };
   });
 }
 
