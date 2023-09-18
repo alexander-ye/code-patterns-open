@@ -22,6 +22,8 @@ const nextConfig = {
   },
   // Optionally, add any other Next.js config below
   reactStrictMode: true,
+  // Publish (enable static export)
+  output: "export",
 };
 
 // Merge MDX config with Next.js config
