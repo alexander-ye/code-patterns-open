@@ -13,15 +13,15 @@ export default function TableOfContents({ headings }: any) {
           // If a link touches the intersection window,
           //    first remove the "active" class (i.e. the highlight) from all other links,
           //    then add the class back to the current link
-          if (entry.isIntersecting) {
+          if (entry?.isIntersecting) {
             document
-              .querySelectorAll(tocLinkSelector)
-              .forEach((element) =>
-                element.parentElement.classList.remove("active")
+              ?.querySelectorAll(tocLinkSelector)
+              ?.forEach((element: any) =>
+                element?.parentElement?.classList?.remove("active")
               );
             document
-              .querySelector(linkSelector)
-              .parentElement.classList.add("active");
+              ?.querySelector(linkSelector)
+              ?.parentElement?.classList?.add("active");
           }
         });
       };
