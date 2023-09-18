@@ -1,4 +1,4 @@
-import CodeTabs from "@components/content/codetabs/Codetabs";
+import CodeTabs from "@components/content/codetabs/CodeTabs";
 import {
   getMarkdownFileBySlug,
   getMarkdownFrontmatter,

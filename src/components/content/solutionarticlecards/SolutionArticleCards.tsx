@@ -1,4 +1,4 @@
-import SolutionArticleCard from "@components/content/solutionarticlecard/Solutionarticlecard";
+import SolutionArticleCard from "@components/content/solutionarticlecard/SolutionArticleCard";
 
 export default function SolutionArticleCards({ sectionName, src, posts }: any) {
   return (
