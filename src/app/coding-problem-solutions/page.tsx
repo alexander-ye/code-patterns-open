@@ -1,4 +1,4 @@
-import SolutionArticleCards from "@components/content/solutionarticlecards/SolutionArticleCards";
+import SolutionArticleCards from "@components/content/solutionarticlecards/Solutionarticlecards";
 import { getMarkdownFrontmatterFromDirectory } from "@lib/api/markdown-fs";
 
 import { CODING_SOLUTION_POST_ROOT_PATH } from "@lib/constants";
