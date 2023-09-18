@@ -37,8 +37,10 @@ export async function generateStaticParams() {
 // DOCUMENTATION: https://github.com/hashicorp/next-mdx-remote
 // DOCUMENTATION: https://nextjs.org/docs/app/building-your-application/rendering#network-boundary
 async function getPost(params: any) {
-  const slug: string = `/${params.slug.join("/")}`;
-
+  const slug: string = `${params.slug.join("/")}`;
+  if (slug.includes(".")) {
+    return {};
+  }
   const { content } = await getMarkdownFileBySlug(slug);
   const frontmatter = await getMarkdownFrontmatter(content);
   return { ...frontmatter, source: content };

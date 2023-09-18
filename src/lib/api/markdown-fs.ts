@@ -57,6 +57,8 @@ export function getMarkdownFilePaths(directory = POSTS_ROOT_PATH): string[] {
       if (fs.lstatSync(fileName).isDirectory()) {
         directoriesToRead.push(fileName);
         return false;
+      } else if (!fileName.includes(".mdx")) {
+        return false;
       }
       return true;
     });
