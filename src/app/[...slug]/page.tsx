@@ -1,7 +1,9 @@
 import CodeTabs from "@components/content/codetabs/CodeTabs";
 import {
   getMarkdownFileBySlug,
+  getMarkdownFilePaths,
   getMarkdownFrontmatter,
+  getSlugFromPath,
 } from "@lib/api/markdown-fs";
 import { MDXRemote } from "next-mdx-remote/rsc";
 
@@ -24,7 +26,11 @@ export default async function Post({ params }: any) {
 
 // Return a list of 'params' to populate the [slug] dynamic segment
 export async function generateStaticParams() {
-  return [];
+  const postFilePaths = getMarkdownFilePaths();
+  return postFilePaths.map((filePath: string) => {
+    const [slugPath, slugSegment] = getSlugFromPath(filePath);
+    return { id: slugPath, slug: slugPath };
+  });
 }
 
 // Pre-render a page at build time
