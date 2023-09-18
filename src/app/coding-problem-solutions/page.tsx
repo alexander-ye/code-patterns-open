@@ -28,7 +28,12 @@ export default async function CodeChallengeSolutions() {
       <h1>Programming Challenge Solutions</h1>
       {sourcedCodingSolutions.map(({ domain, href, posts }: any) => {
         return (
-          <SolutionArticleCards sectionName={domain} src={href} posts={posts} />
+          <SolutionArticleCards
+            key={href}
+            sectionName={domain}
+            src={href}
+            posts={posts}
+          />
         );
       })}
     </main>

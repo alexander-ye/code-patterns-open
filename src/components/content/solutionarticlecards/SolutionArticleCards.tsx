@@ -24,6 +24,7 @@ export default function SolutionArticleCards({ sectionName, src, posts }: any) {
           const problemDifficulty: string = entry.src?.difficulty || "";
           return (
             <SolutionArticleCard
+              key={postSlug}
               href={postSlug}
               title={postTitle}
               difficulty={problemDifficulty}

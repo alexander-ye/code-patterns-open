@@ -57,7 +57,7 @@ export default function TableOfContents({ headings }: any) {
 
           const headingRef: string = `#${slug}`;
           return (
-            <li className={`toc-header toc-depth-${depth}`}>
+            <li key={slug} className={`toc-header toc-depth-${depth}`}>
               <a href={headingRef}>{text}</a>
             </li>
           );
