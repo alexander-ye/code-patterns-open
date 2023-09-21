@@ -5,18 +5,37 @@ import {
   getMarkdownFrontmatter,
   getSlugFromPath,
 } from "@lib/api/markdown-fs";
+import rehypeHighlight from "rehype-highlight";
 import { MDXRemote } from "next-mdx-remote/rsc";
 
+import langPython from "highlight.js/lib/languages/python";
+import langJs from "highlight.js/lib/languages/javascript";
+import LeetCodeDifficultyTag from "@components/content/leetcodedifficultytag/LeetCodeDifficultyTag";
+
+const markdownOptions: any = {
+  parseFrontmatter: true,
+  mdxOptions: {
+    remarkPlugins: [],
+    rehypePlugins: [
+      rehypeHighlight,
+      { languages: { python: langPython, javascript: langJs } },
+    ],
+  },
+};
 export default async function Post({ params }: any) {
   const post: any = await getPost(params);
   return (
     <main>
       <article className="mb-32">
         <h1>{post?.title}</h1>
-        {post.src ? <p>{post.src.difficulty}</p> : null}
+        {post.src ? (
+          <div className={`flex flex-row m-[0.5rem]`}>
+            <LeetCodeDifficultyTag difficulty={post.src.difficulty} />
+          </div>
+        ) : null}
         <MDXRemote
           source={post.source}
-          options={{ parseFrontmatter: true }}
+          options={markdownOptions}
           components={{ CodeTabs }}
         />
       </article>
@@ -25,6 +44,7 @@ export default async function Post({ params }: any) {
 }
 
 // Return a list of 'params' to populate the [slug] dynamic segment
+// DOCUMENTATION: https://nextjs.org/docs/app/api-reference/functions/generate-static-params#examples
 export async function generateStaticParams() {
   const postFilePaths = getMarkdownFilePaths();
   return postFilePaths.map((filePath: string) => {

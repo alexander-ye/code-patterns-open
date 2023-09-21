@@ -10,11 +10,13 @@ export default function CodeTabs({ children }: any) {
     <section className={`m-[1rem] max-w-[800px] overflow-hidden`}>
       <div className="flex flex-row border-b-[1px] border-[black] overflow-scroll">
         {Children.map(children, (child: any, index: number) => {
-          const languageClass: string =
-            child?.props?.children?.props?.className || "";
+          const classNames: string[] =
+            child?.props?.children?.props?.className?.split(" ") || [""];
+          const languageClass: string = classNames[classNames.length - 1];
           const selected: boolean = languageIndex === index;
+
           return (
-            <button
+            <div
               key={languageClass}
               className={`
               cursor-pointer
@@ -27,12 +29,12 @@ export default function CodeTabs({ children }: any) {
               onClick={() => setLanguageIndex(index)}
             >
               {languageClassToName[languageClass]}
-            </button>
+            </div>
           );
         })}
       </div>
       <div className="flex flex-1 p-[1rem] break-words break-all overflow-scroll">
-        {children[languageIndex]}
+        {children[languageIndex] || children}
       </div>
     </section>
   );

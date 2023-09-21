@@ -1,7 +1,6 @@
-import { colors } from "@lib/constants";
+import LeetCodeDifficultyTag from "../leetcodedifficultytag/LeetCodeDifficultyTag";
 
 export default function SolutionArticleCard({ href, title, difficulty }: any) {
-  const difficultyColor: any = colors.difficulties;
   return (
     <a
       href={href}
@@ -22,19 +21,7 @@ export default function SolutionArticleCard({ href, title, difficulty }: any) {
     >
       <article className="flex-1 flex flex-col justify-between">
         <p className={`pb-[2rem]`}>{title}</p>
-        {difficulty ? (
-          <p
-            className={`
-            text-[12px]
-            text-center
-            rounded-[4px]`}
-            style={{
-              backgroundColor: `${difficultyColor[difficulty]}`,
-            }}
-          >
-            {difficulty}
-          </p>
-        ) : null}
+        {difficulty ? <LeetCodeDifficultyTag difficulty={difficulty} /> : null}
       </article>
     </a>
   );

@@ -19,6 +19,10 @@ export default function RootLayout({
         <meta charSet="UTF-8" />
         <meta name="description" content="Astro description" />
         <meta name="viewport" content="width=device-width" />
+        <link
+          rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/github.min.css"
+        ></link>
         {/* <title>{title}</title> */}
       </head>
       <body>
