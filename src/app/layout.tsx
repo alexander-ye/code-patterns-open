@@ -3,6 +3,12 @@ import "./globals.css";
 import type { Metadata } from "next";
 import Footer from "@components/site/footer/Footer";
 
+export const metadata: Metadata = {
+  title: "Code Patterns Open",
+  description:
+    "Open-source coding education website with solutions to technical screening problems.",
+};
+
 export default function RootLayout({
   children,
 }: {
@@ -12,11 +18,8 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <meta charSet="UTF-8" />
-        <meta name="title" content="Code Patterns Open" />
-        <meta
-          name="description"
-          content="Open-source coding education website with solutions to technical screening problems."
-        />
+        <meta name="title" content={`${metadata.title}`} />
+        <meta name="description" content={`${metadata.description}`} />
         <meta name="viewport" content="width=device-width" />
         <link
           rel="stylesheet"
