@@ -20,10 +20,10 @@ export const navLinks = [
     url: "/about",
     label: "About",
   },
-  {
-    url: "/contribute",
-    label: "Contribute",
-  },
+  // {
+  //   url: "/contribute",
+  //   label: "Contribute",
+  // },
 ];
 
 export const colors = {

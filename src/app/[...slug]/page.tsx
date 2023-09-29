@@ -5,30 +5,12 @@ import {
   getSlugFromPath,
 } from "@lib/api/markdown-fs";
 
-import Head from "next/head";
-import { Metadata } from "next";
 import LeetCodePost from "./LeetCodePost";
 
 export default async function Post({ params }: any) {
   const post: any = await getPost(params);
 
-  const metadata: Metadata = {
-    title: post?.title || "Code Patterns Open",
-    description:
-      post?.description ||
-      "Open-source coding education website with solutions to technical screening problems.",
-  };
-
-  return (
-    <>
-      <Head>
-        <title>{`${metadata.title}`}</title>
-        <meta name="title" content={`${metadata.title}`} />
-        <meta name="description" content={`${metadata.description}`} />
-      </Head>
-      <LeetCodePost post={post} />
-    </>
-  );
+  return <LeetCodePost post={post} />;
 }
 
 // Return a list of 'params' to populate the [slug] dynamic segment

@@ -1,0 +1,40 @@
+.article-content {
+  min-width: 0;
+}
+
+.article-content ol,
+ul {
+  margin-left: 2rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.article-content ul {
+  list-style-type: disc;
+}
+
+.article-content ol {
+  list-style-type: decimal;
+}
+
+.article-content li {
+  margin: 0;
+}
+
+.article-content li p {
+  margin: 0;
+}
+
+.article-content li ol,
+ul {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.article-content h2 {
+  margin-top: 1rem;
+}
+
+.article-content h3 {
+  margin-top: 1rem;
+}

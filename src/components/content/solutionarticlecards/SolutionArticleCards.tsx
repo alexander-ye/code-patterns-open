@@ -15,7 +15,9 @@ export default function SolutionArticleCards({ sectionName, src, posts }: any) {
       <section
         className={`
               grid
-              grid-cols-4
+              sm:grid-cols-2
+              md:grid-cols-3
+              lg:grid-cols-4
               gap-[10px]`}
       >
         {posts.map((entry: any) => {

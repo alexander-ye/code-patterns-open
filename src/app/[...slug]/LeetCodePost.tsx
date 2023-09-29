@@ -47,22 +47,21 @@ export default function LeetCodePost({ post }: any) {
   // TODO: REFS
 
   return (
-    <main className="flex flex-row">
+    <div className="flex flex-row flex-1 w-[100%]">
       <TableOfContents headings={heading23s} />
-      <article className="mb-32 flex-1">
+      <article className="article-content flex-1">
         <h1>{post?.title}</h1>
         {post.src ? (
           <div className={`flex flex-row m-[0.5rem]`}>
             <LeetCodeDifficultyTag difficulty={post.src.difficulty} />
           </div>
         ) : null}
-
         <MDXRemote
           source={post.source}
           options={markdownOptions}
           components={{ CodeTabs }}
         />
       </article>
-    </main>
+    </div>
   );
 }

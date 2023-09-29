@@ -7,7 +7,11 @@ export default function CodeTabs({ children }: any) {
   const [languageIndex, setLanguageIndex] = useState(0);
 
   return (
-    <section className={`m-[1rem] max-w-[800px] overflow-hidden`}>
+    <section
+      className={`
+      m-[1rem] 
+      overflow-hidden`}
+    >
       <div className="flex flex-row border-b-[1px] border-[black] overflow-scroll">
         {Children.map(children, (child: any, index: number) => {
           const classNames: string[] =
