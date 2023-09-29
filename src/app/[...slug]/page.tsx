@@ -1,45 +1,33 @@
-import CodeTabs from "@components/content/codetabs/CodeTabs";
 import {
   getMarkdownFileBySlug,
   getMarkdownFilePaths,
   getMarkdownFrontmatter,
   getSlugFromPath,
 } from "@lib/api/markdown-fs";
-import rehypeHighlight from "rehype-highlight";
-import { MDXRemote } from "next-mdx-remote/rsc";
 
-import langPython from "highlight.js/lib/languages/python";
-import langJs from "highlight.js/lib/languages/javascript";
-import LeetCodeDifficultyTag from "@components/content/leetcodedifficultytag/LeetCodeDifficultyTag";
+import Head from "next/head";
+import { Metadata } from "next";
+import LeetCodePost from "./LeetCodePost";
 
-const markdownOptions: any = {
-  parseFrontmatter: true,
-  mdxOptions: {
-    remarkPlugins: [],
-    rehypePlugins: [
-      rehypeHighlight,
-      { languages: { python: langPython, javascript: langJs } },
-    ],
-  },
-};
 export default async function Post({ params }: any) {
   const post: any = await getPost(params);
+
+  const metadata: Metadata = {
+    title: post?.title || "Code Patterns Open",
+    description:
+      post?.description ||
+      "Open-source coding education website with solutions to technical screening problems.",
+  };
+
   return (
-    <main>
-      <article className="mb-32">
-        <h1>{post?.title}</h1>
-        {post.src ? (
-          <div className={`flex flex-row m-[0.5rem]`}>
-            <LeetCodeDifficultyTag difficulty={post.src.difficulty} />
-          </div>
-        ) : null}
-        <MDXRemote
-          source={post.source}
-          options={markdownOptions}
-          components={{ CodeTabs }}
-        />
-      </article>
-    </main>
+    <>
+      <Head>
+        <title>{`${metadata.title}`}</title>
+        <meta name="title" content={`${metadata.title}`} />
+        <meta name="description" content={`${metadata.description}`} />
+      </Head>
+      <LeetCodePost post={post} />
+    </>
   );
 }
 

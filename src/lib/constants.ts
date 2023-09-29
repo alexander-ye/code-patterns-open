@@ -5,16 +5,16 @@ export const navLinks = [
   {
     url: "/coding-problem-solutions",
     label: "Programming Challenge Solutions",
-    subnav: [
-      {
-        url: "/coding-problem-solutions/leetcode",
-        label: "LeetCode",
-      },
-      {
-        url: "/coding-problem-solutions/hackerrank",
-        label: "HackerRank",
-      },
-    ],
+    // subnav: [
+    //   {
+    //     url: "/coding-problem-solutions/leetcode",
+    //     label: "LeetCode",
+    //   },
+    //   {
+    //     url: "/coding-problem-solutions/hackerrank",
+    //     label: "HackerRank",
+    //   },
+    // ],
   },
   {
     url: "/about",

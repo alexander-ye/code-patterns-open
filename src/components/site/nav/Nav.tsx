@@ -7,7 +7,7 @@ export default function Nav() {
       <ul role="menubar">
         {navLinks.map((link: any) => {
           return (
-            <li key={link} className="nav-item" role="menuitem">
+            <li key={link.url} className="nav-item" role="menuitem">
               <a href={link.url} className="nav-item-url">
                 {link.label}
               </a>
@@ -16,7 +16,7 @@ export default function Nav() {
                   {link.subnav.map((subnavLink: any) => {
                     return (
                       <li
-                        key={subnavLink}
+                        key={subnavLink.url}
                         className="subnav-item"
                         role="menuitem"
                       >
