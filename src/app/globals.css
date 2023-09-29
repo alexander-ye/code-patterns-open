@@ -28,11 +28,12 @@ html {
   background-color: #f6f6f6;
   line-height: 1.5rem;
 }
+
 body {
   width: 95%;
   margin-left: auto;
   margin-right: auto;
-  max-width: 1200px;
+  max-width: 1028px;
 }
 
 code {
@@ -59,10 +60,13 @@ h4 {
 
 h1 {
   font-size: 32px;
+  margin-bottom: 16px;
 }
 
 h2 {
   font-size: 24px;
+  margin-top: 8px;
+  margin-bottom: 4px;
 }
 
 h3 {
@@ -71,4 +75,9 @@ h3 {
 
 h4 {
   font-size: 18px;
+}
+
+p {
+  line-height: 1.5rem;
+  margin-bottom: 1rem;
 }
