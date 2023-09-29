@@ -38,3 +38,11 @@ ul {
 .article-content h3 {
   margin-top: 1rem;
 }
+
+.article-content li > code {
+  display: inline;
+}
+
+.article-content li > code > p {
+  display: inline;
+}
