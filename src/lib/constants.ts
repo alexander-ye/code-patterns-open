@@ -43,6 +43,7 @@ export const languageReferences = {
 export const languageClassToName: any = {
   "language-python": "Python",
   "language-lua": "Lua",
+  "language-java": "Java",
   "language-js": "JavaScript",
   "": "Pseudocode",
 };
