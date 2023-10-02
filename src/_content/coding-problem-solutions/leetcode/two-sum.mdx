@@ -127,6 +127,28 @@ class Solution:
           return [i, j]
 ```
 
+```java
+class Solution {
+    public int[] twoSum(int[] nums, int target) {
+        for (int i = 0; i < nums.length; i++) {
+          // Iterate over the entire list
+          // Micro-optimization with indices to avoid using the same element
+          // and reduce duplicate work
+          // (all numbers have been checked against previous numbers of the loop)
+            for (int j = i + 1; j < nums.length; j++) {
+                // Check if the sum of two elements adds up to the target
+                if (nums[i] + nums[j] == target) {
+                    // If the sum equals our target, return the two indices
+                    // Remember that return statements terminate function execution
+                    return new int[]{i, j};
+                }
+            }
+        }
+        return new int[]{};
+    }
+}
+```
+
 ```js
 /**
  * @param {number[]} nums
@@ -196,7 +218,7 @@ class Solution:
     for i in range(N):
       # Get the number at that index
       number = nums[i]
-      # Get the number's complement
+      # Compute the number's complement
       complement = target - number
       # Check whether the number's complement is in the hash map
       if complement in numberToIndex:
@@ -207,6 +229,34 @@ class Solution:
 
     # We do not need this last line of code because we are guaranteed to have a solution
     # return []
+```
+
+```java
+class Solution {
+    public int[] twoSum(int[] nums, int target) {
+        // Declare a hash map to store our solution
+        Map<Integer, Integer> complements = new HashMap<>();
+
+        // For each index of our nums list
+        for (int i = 0; i < nums.length; i++) {
+            // Get the number at that index
+            int value = nums[i];
+            // Compute the number's complement
+            int difference = target - value;
+            // Check whether the number's complement is in the hash map
+            if (complements.containsKey(difference)) {
+                // If the complement is in the hash map, we return the index of our two numbers
+                int[] out = new int[]{i, complements.get(difference)};
+                return out;
+            } else {
+                // If not, add our current number to the hashmap
+                complements.put(value, i);
+            }
+        }
+        // Java requires this return statement, even though
+        return new int[]{};
+    }
+}
 ```
 
 ```js
